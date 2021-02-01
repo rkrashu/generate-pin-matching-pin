@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id =display-generate-pin class="form-control" type="text">
+                    <button id = generate-pin class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id=display-typed-btn class="form-control" type="text">
+                    <div class="numbers">
+                        <div id= btn-container class="calc-body">
+                            <div class="calc-button-row">
+                              <div class="button">7</div>
+                              <div class="button">8</div>
+                              <div class="button">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button">4</div>
+                              <div class="button">5</div>
+                              <div class="button">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div class="button">1</div>
+                              <div class="button">2</div>
+                              <div class="button">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button">B</div>
+                                <div class="button">0</div>
+                                <div class="button">C</div>
+                            </div>
+                            <div>
+                                <button id=submit-btn type="submit" class="submit-btn">Submit</button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p id= failed-notification class="notify">❌ Pin Didn't Match, Please try again</p>
+            <p id= success-notification class="notify">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+</body>
+<script>
+//generate-btn
+document.getElementById("generate-pin").addEventListener('click', function(){
+    const random =Math.round(Math.random() *10000)
+    const generatePin =random + ''
+    if(generatePin.length ==4){
+        document.getElementById("display-generate-pin").value = generatePin;
+    }
+})
+//typed btn
+document.getElementById("btn-container").addEventListener('click', function(event){
+    const typedBtn = event.target.innerText
+    if(isNaN(typedBtn)){
+    if(typedBtn == "C"){
+    document.getElementById("display-typed-btn").value = ""
+    }
+    else{
+        function back() {
+    var value = document.getElementById("display-typed-btn").value;
+    document.getElementById("display-typed-btn").value = value.substr(0, value.length - 1);
+}
+back()
+    }
+    }
+    else{
+        const digitInput = document.getElementById("display-typed-btn")
+        digitInput.value = digitInput.value + typedBtn;
+    }
+})
+//validation
+document.getElementById("submit-btn").addEventListener('click', function(){
+    const generatePin = document.getElementById("display-generate-pin").value
+    const typedPin = document.getElementById("display-typed-btn").value
+    if(generatePin==typedPin){
+        document.getElementById("success-notification").style.display = 'block';
+        document.getElementById("failed-notification").style.display = 'none'
+    }
+    else{
+        document.getElementById("success-notification").style.display = 'none';
+        document.getElementById("failed-notification").style.display = 'block'
+    }
+})
+
+
+</script>
+</html>
